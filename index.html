@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KNU-VoiceAnouncer 사용자 매뉴얼</title>
+    <title>KNU-VoiceAnnouncer 사용자 매뉴얼</title>
     <style>
         :root {
             --primary-color: #4a90e2;
@@ -17,12 +17,20 @@
             --border-radius: 8px;
             --shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
             --transition: all 0.3s ease;
+            --nav-height: 60px; /* 내비게이션 바 높이 변수 추가 */
+            --header-height: 110px; /* 헤더 높이 변수 추가 */
         }
         
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+        }
+        
+        /* 스크롤 패딩 추가 - 이것이 앵커 위치를 조정합니다 */
+        html {
+            scroll-padding-top: calc(var(--header-height) + var(--nav-height) + 20px);
+            scroll-behavior: smooth; /* 부드러운 스크롤 효과 */
         }
         
         body {
@@ -47,6 +55,7 @@
             top: 0;
             z-index: 1000;
             box-shadow: var(--shadow);
+            height: var(--header-height);
         }
         
         .header-content {
@@ -76,15 +85,27 @@
             object-fit: cover;
         }
         
+        .title-container {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+            white-space: nowrap; /* 한 줄에 표시되도록 */
+        }
+        
         .title-container h1 {
-            font-size: 2.2rem;
+            font-size: 1.8rem; /* 글자 크기 줄임 */
             color: var(--primary-color);
             margin-bottom: 5px;
         }
         
         .title-container p {
-            font-size: 1rem;
+            font-size: 0.9rem;
             color: var(--text-lighter);
+        }
+        
+        .date-time {
+            text-align: right;
         }
         
         /* 내비게이션 */
@@ -92,9 +113,10 @@
             background-color: var(--background-dark);
             padding: 15px 0;
             position: sticky;
-            top: 120px;
+            top: var(--header-height);
             z-index: 900;
             box-shadow: var(--shadow);
+            height: var(--nav-height);
         }
         
         .nav-links {
@@ -121,11 +143,7 @@
             transform: translateY(-3px);
         }
         
-        /* 메인 콘텐츠 */
-        main {
-            padding: 40px 0;
-        }
-        
+        /* 섹션 스타일 */
         section {
             margin-bottom: 50px;
             padding: 30px;
@@ -133,6 +151,14 @@
             border-radius: var(--border-radius);
             box-shadow: var(--shadow);
             transition: var(--transition);
+            position: relative; /* 앵커를 위한 포지셔닝 */
+        }
+        
+        /* 섹션 앵커를 위한 스타일 */
+        .section-anchor {
+            position: absolute;
+            top: -calc(var(--header-height) + var(--nav-height) + 20px);
+            visibility: hidden;
         }
         
         section:hover {
@@ -333,23 +359,51 @@
         }
         
         /* 반응형 디자인 */
-        @media (max-width: 768px) {
+        @media (max-width: 992px) {
+            .title-container {
+                position: static;
+                transform: none;
+                text-align: center;
+                margin: 15px 0;
+            }
+            
             .header-content {
                 flex-direction: column;
                 text-align: center;
-                gap: 15px;
             }
             
             .logo-container {
-                flex-direction: column;
+                margin: 0 auto;
+            }
+            
+            .date-time {
+                text-align: center;
             }
             
             nav {
-                top: 200px;
+                top: var(--header-height);
             }
             
+            html {
+                scroll-padding-top: calc(var(--header-height) + var(--nav-height) + 40px);
+            }
+            
+            :root {
+                --header-height: 180px;
+            }
+        }
+        
+        @media (max-width: 768px) {
             .feature-cards {
                 grid-template-columns: 1fr;
+            }
+            
+            :root {
+                --header-height: 240px;
+            }
+            
+            html {
+                scroll-padding-top: calc(var(--header-height) + var(--nav-height) + 40px);
             }
         }
         
@@ -413,10 +467,10 @@
                     <div class="logo">
                         <img src="images/logo.png" alt="KNU 로고">
                     </div>
-                    <div class="title-container">
-                        <h1>KNU-VoiceAnouncer</h1>
-                        <p>다국어 안내방송 프로그램 Ver 1.0</p>
-                    </div>
+                </div>
+                <div class="title-container">
+                    <h1>KNU-VoiceAnnouncer 사용자 매뉴얼</h1>
+                    <p>다국어 안내방송 프로그램 Ver 1.0</p>
                 </div>
                 <div class="date-time">
                     <p id="current-date">2025/03/16</p>
@@ -442,12 +496,13 @@
     
     <main class="container">
         <section id="intro" class="fade-in">
+            <span class="section-anchor" id="intro-anchor"></span>
             <h2>소개</h2>
-            <p>KNU-VoiceAnouncer는 경북대학교 생활관을 위해 개발된 다국어 안내방송 프로그램입니다. 이 프로그램을 통해 한국어, 영어, 일본어, 중국어, 인도어로 안내방송을 제작하고 송출할 수 있습니다. 또한 방송 예약 기능을 통해 지정된 시간에 자동으로 방송을 송출할 수 있습니다.</p>
+            <p>KNU-VoiceAnnouncer는 경북대학교 생활관을 위해 개발된 다국어 안내방송 프로그램입니다. 이 프로그램을 통해 한국어, 영어, 일본어, 중국어, 인도어로 안내방송을 제작하고 송출할 수 있습니다. 또한 방송 예약 기능을 통해 지정된 시간에 자동으로 방송을 송출할 수 있습니다.</p>
             
             <div class="screenshot-container">
-                <img src="images/screenshot.png" alt="KNU-VoiceAnouncer 프로그램 화면" class="screenshot">
-                <p class="caption">KNU-VoiceAnouncer 프로그램 메인 화면</p>
+                <img src="images/screenshot.png" alt="KNU-VoiceAnnouncer 프로그램 화면" class="screenshot">
+                <p class="caption">KNU-VoiceAnnouncer 프로그램 메인 화면</p>
             </div>
             
             <p>프로그램의 주요 기능은 다음과 같습니다:</p>
@@ -462,6 +517,7 @@
         </section>
         
         <section id="getting-started" class="fade-in">
+            <span class="section-anchor" id="getting-started-anchor"></span>
             <h2>프로그램 시작하기</h2>
             <p>프로그램을 실행하면 메인 화면이 표시됩니다. 화면 상단에는 경북대학교 생활관 로고와, 프로그램 제목, 현재 날짜와 시간이 표시됩니다.</p>
             
@@ -481,6 +537,7 @@
         </section>
         
         <section id="general-broadcast" class="fade-in">
+            <span class="section-anchor" id="general-broadcast-anchor"></span>
             <h2>일반 방송 설정</h2>
             <p>일반 방송 설정 탭에서는 방송 내용을 작성하고 번역하여 음성으로 변환할 수 있습니다.</p>
             
@@ -571,6 +628,7 @@
         </section>
         
         <section id="schedule-broadcast" class="fade-in">
+            <span class="section-anchor" id="schedule-broadcast-anchor"></span>
             <h2>예약 방송 설정</h2>
             <p>예약 방송 설정 탭에서는 방송을 특정 날짜와 시간에 자동으로 실행되도록 예약할 수 있습니다.</p>
             
@@ -632,6 +690,7 @@
         </section>
         
         <section id="settings" class="fade-in">
+            <span class="section-anchor" id="settings-anchor"></span>
             <h2>환경 설정</h2>
             <p>환경 설정 탭에서는 스피커 설정을 관리할 수 있습니다.</p>
             
@@ -669,6 +728,7 @@
         </section>
         
         <section id="troubleshooting" class="fade-in">
+            <span class="section-anchor" id="troubleshooting-anchor"></span>
             <h2>문제 해결</h2>
             
             <h3>자주 발생하는 문제</h3>
@@ -721,10 +781,11 @@
         </section>
         
         <section id="copyright" class="fade-in">
+            <span class="section-anchor" id="copyright-anchor"></span>
             <h2>저작권 정보</h2>
-            <p>KNU-VoiceAnouncer 프로그램은 경북대학교 생활관을 위해 개발되었습니다. 본 프로그램에 사용된 음성, 프로그램, 아이콘, 이미지들에 대한 법적인 문제는 없으며, 본 프로그램에 대한 저작권은 개발자인 '윤동성'에게 있습니다.</p>
+            <p>KNU-VoiceAnnouncer 프로그램은 경북대학교 생활관을 위해 개발되었습니다. 본 프로그램에 사용된 음성, 프로그램, 아이콘, 이미지들에 대한 법적인 문제는 없으며, 본 프로그램에 대한 저작권은 개발자인 '윤동성'에게 있습니다.</p>
             <p>무단 복제 및 배포를 금지합니다.</p>
-            <p class="copyright">© 2023 윤동성. All rights reserved.</p>
+            <p class="copyright">© 2025 윤동성. All rights reserved.</p>
         </section>
     </main>
     
@@ -742,9 +803,9 @@
     
     <footer>
         <div class="container">
-            <p>KNU-VoiceAnouncer 사용자 매뉴얼</p>
+            <p>KNU-VoiceAnnouncer 사용자 매뉴얼</p>
             <p>버전 1.0 | 경북대학교 생활관</p>
-            <p class="copyright">© 2023 윤동성. All rights reserved.</p>
+            <p class="copyright">© 2025 윤동성. All rights reserved.</p>
         </div>
     </footer>
     
@@ -795,12 +856,77 @@
             const navLinks = document.querySelectorAll('.nav-links a');
             const tocLinks = document.querySelectorAll('.toc-panel a');
             
+            // 링크 클릭 이벤트 처리 - 부드러운 스크롤 및 정확한 위치로 이동
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    const targetId = this.getAttribute('href').substring(1);
+                    const targetSection = document.getElementById(targetId);
+                    
+                    if (targetSection) {
+                        // 해당 섹션으로 부드럽게 스크롤
+                        window.scrollTo({
+                            top: targetSection.offsetTop,
+                            behavior: 'smooth'
+                        });
+                        
+                        // 활성화된 링크 스타일 변경
+                        navLinks.forEach(l => l.classList.remove('active'));
+                        this.classList.add('active');
+                        
+                        // 측면 목차도 업데이트
+                        tocLinks.forEach(l => {
+                            l.classList.remove('active');
+                            if (l.getAttribute('href') === this.getAttribute('href')) {
+                                l.classList.add('active');
+                            }
+                        });
+                    }
+                });
+            });
+            
+            // TOC 패널 링크에도 동일한 이벤트 핸들러 적용
+            tocLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    const targetId = this.getAttribute('href').substring(1);
+                    const targetSection = document.getElementById(targetId);
+                    
+                    if (targetSection) {
+                        window.scrollTo({
+                            top: targetSection.offsetTop,
+                            behavior: 'smooth'
+                        });
+                        
+                        tocLinks.forEach(l => l.classList.remove('active'));
+                        this.classList.add('active');
+                        
+                        navLinks.forEach(l => {
+                            l.classList.remove('active');
+                            if (l.getAttribute('href') === this.getAttribute('href')) {
+                                l.classList.add('active');
+                            }
+                        });
+                    }
+                });
+            });
+            
+            // 스크롤 시 현재 보이는 섹션에 따라 네비게이션 링크 활성화
             function setActiveLink() {
                 let found = false;
-                sections.forEach((section, index) => {
+                
+                // 헤더와 내비게이션 바 높이 계산
+                const headerHeight = document.querySelector('header').offsetHeight;
+                const navHeight = document.querySelector('nav').offsetHeight;
+                const totalOffset = headerHeight + navHeight + 10; // 약간의 여유 공간 추가
+                
+                sections.forEach(section => {
                     const rect = section.getBoundingClientRect();
                     
-                    if (rect.top <= 150 && rect.bottom >= 150 && !found) {
+                    // 화면에 보이는 첫 번째 섹션만 활성화 (내비게이션 바 바로 아래에 있는 섹션)
+                    if (rect.top <= totalOffset && rect.bottom >= totalOffset && !found) {
                         const id = section.getAttribute('id');
                         
                         // 메인 네비게이션 링크 활성화
